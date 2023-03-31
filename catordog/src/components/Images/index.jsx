@@ -4,7 +4,7 @@ import React from "react";
 let dogCount = 0
 let catCount = 0
 
-export default function Images({cats, dogs, upCat, upDog}){
+export default function Images({cats, dogs, upCat, upDog, setEscolha}){
 
     const animals = cats?.concat(dogs)
     const shuffledAnimals = animals?.sort((a, b) => 0.5 - Math.random());
@@ -31,31 +31,34 @@ export default function Images({cats, dogs, upCat, upDog}){
             if(name === 'dogs'){
                 //adiciona pra cachorro
                 dogCount += 1
+                setEscolha('dog')
+                setTimeout(()=>{ setEscolha('') },400)
                 upDog(dogCount)
-
+                e.target.style.opacity = '0'
             }
-            e.target.remove()
+            setTimeout(() => {e.target.remove()}, 1000)
+            //e.target.remove()
             return 
         }
         if(direction < negativeWidth){
-            //arrastou para esqueda -> conta pra gato
+            //arrastou para esquerda -> conta pra gato
             //vê se é gato
             if(name === 'cats'){
                 //adiciona pra gato
                 catCount += 1
+                setEscolha('cat')
+                setTimeout(()=>{ setEscolha('') },400)
                 upCat(catCount)
- 
+                e.target.style.opacity = '0'
             }
-            e.target.remove()
+            setTimeout(() => {e.target.remove()}, 1000)
+            //e.target.remove()
             return 
         }
         e.target.style.cssText = 'transform: translate(0px, 0px);'
         
     }
 
-    const handleTest = (e) =>{
-        console.log(e)
-    }
 
     return(
         shuffledAnimals?.map((animal, i) => {
@@ -63,7 +66,7 @@ export default function Images({cats, dogs, upCat, upDog}){
                 <Draggable 
                 className='img' 
                 key={i} 
-                axis='x'
+                bounds={{top: -100, bottom: 100}}
                 onStop={checkAnimal}
                 >
                     <img src={animal.image_link}
@@ -72,7 +75,6 @@ export default function Images({cats, dogs, upCat, upDog}){
                     key={i} alt={animal.name}
                     title={animal.name}
                     className='imagens'
-                    //onMouseUpCapture={(e) => checkAnimal(e)}
                     />
                 </Draggable>
             )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Images from './components/Images';
 import './App.css';
 const API_KEY = process.env.REACT_APP_URL_API
@@ -10,6 +10,7 @@ function App() {
   const [cats, setCats] = useState()
   const [dogCount, setDogCount] = useState(0)
   const [catCount, setCatCount] = useState(0)
+  const [escolha, setEscolha] = useState('')
     function getAnimals(){
       if(!cats && !dogs){
       fetch("https://api.api-ninjas.com/v1/cats?min_weight=1", {headers: {'X-Api-Key': API_KEY}})
@@ -43,9 +44,9 @@ function App() {
       <main>
         <section>
           <div className="container">
-              {dogs && cats ? <Images cats={cats} dogs = {dogs} upCat={setCatCount} upDog={setDogCount}/> : ''}
-              <h2 className='cachorro'>Cachorros {dogCount}</h2>
-              <h2 className='gato'>Gatos {catCount}</h2>
+              {dogs && cats ? <Images cats={cats} dogs = {dogs} upCat={setCatCount} upDog={setDogCount} setEscolha={setEscolha}/> : ''}
+              <h2 className={`cachorro  ${escolha === 'dog' ? 'textScale' : ''}`}>Cachorros {dogCount}</h2>
+              <h2 className={`gato ${escolha === 'cat' ? 'textScale' : ''}`}>Gatos {catCount}</h2>
           </div>
         </section>
       </main>

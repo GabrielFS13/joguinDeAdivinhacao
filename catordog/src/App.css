@@ -38,7 +38,7 @@ section{
     min-height: 500px;
     position: absolute;
     object-fit: contain;
-
+    transition: opacity 1s;
 }
 
 .container h2{
@@ -52,7 +52,24 @@ section{
 .gato{
     left: 10px;
     top: -30px;
+}
 
+.deletaDog{
+    transition: opacity .2s ease-out;
+    opacity: 0;
+}
+
+.textScale{
+    animation: animaTexto .4s ease-in-out;
+}
+
+@keyframes animaTexto {
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(1.5);
+    }
 }
 
 
