@@ -53,6 +53,10 @@ export default function Images({cats, dogs, upCat, upDog}){
         
     }
 
+    const handleTest = (e) =>{
+        console.log(e)
+    }
+
     return(
         shuffledAnimals?.map((animal, i) => {
             return(
@@ -60,6 +64,7 @@ export default function Images({cats, dogs, upCat, upDog}){
                 className='img' 
                 key={i} 
                 axis='x'
+                onStop={checkAnimal}
                 >
                     <img src={animal.image_link}
                     height='200'
@@ -67,8 +72,7 @@ export default function Images({cats, dogs, upCat, upDog}){
                     key={i} alt={animal.name}
                     title={animal.name}
                     className='imagens'
-                    onMouseUpCapture={checkAnimal}
-                    onClick={checkAnimal}
+                    //onMouseUpCapture={(e) => checkAnimal(e)}
                     />
                 </Draggable>
             )
