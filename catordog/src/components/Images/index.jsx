@@ -44,7 +44,7 @@ export default function Images({cats, dogs, upCat, upDog}){
                 //adiciona pra gato
                 catCount += 1
                 upCat(catCount)
-
+ 
             }
             e.target.remove()
             return 
