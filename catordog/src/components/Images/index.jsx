@@ -1,13 +1,15 @@
 import Draggable from "react-draggable";
-import React from "react";
+import React, { useState } from "react";
 
-let dogCount = 0
-let catCount = 0
+let dogIncrement = 0
+let catIncrement = 0
 
-export default function Images({cats, dogs, upCat, upDog, setEscolha}){
+export default function Images({animais}){
 
-    const animals = cats?.concat(dogs)
-    const shuffledAnimals = animals?.sort((a, b) => 0.5 - Math.random());
+  
+    const [dogCount, setDogCount] = useState(0)
+    const [catCount, setCatCount] = useState(0)
+    const [escolha, setEscolha] = useState('')
 
     function checkAnimal(e){
         var pos = e.target.style.cssText
@@ -21,38 +23,32 @@ export default function Images({cats, dogs, upCat, upDog, setEscolha}){
         name = name.split('/')
         name = name[4]
 
-        console.log(direction)
-        console.log(containerWidht)
-        console.log(negativeWidth)
-
         if(direction > containerWidht ){
             //arrastou para direita -> conta pra cachorro
             //vê se é cachorrou
             if(name === 'dogs'){
                 //adiciona pra cachorro
-                dogCount += 1
+                dogIncrement += 1
                 setEscolha('dog')
                 setTimeout(()=>{ setEscolha('') },400)
-                upDog(dogCount)
-                e.target.style.opacity = '0'
+                setDogCount(dogIncrement)
             }
-            setTimeout(() => {e.target.remove()}, 1000)
-            //e.target.remove()
-            return 
+            e.target.style.cssText += 'opacity: 0'
+            setTimeout(() => {e.target.remove()}, 600)
+            return
         }
         if(direction < negativeWidth){
             //arrastou para esquerda -> conta pra gato
             //vê se é gato
             if(name === 'cats'){
                 //adiciona pra gato
-                catCount += 1
+                catIncrement += 1
                 setEscolha('cat')
                 setTimeout(()=>{ setEscolha('') },400)
-                upCat(catCount)
-                e.target.style.opacity = '0'
+                setCatCount(catIncrement)
             }
-            setTimeout(() => {e.target.remove()}, 1000)
-            //e.target.remove()
+            e.target.style.cssText += 'opacity: 0'
+            setTimeout(() => {e.target.remove()}, 600)
             return 
         }
         e.target.style.cssText = 'transform: translate(0px, 0px);'
@@ -61,23 +57,26 @@ export default function Images({cats, dogs, upCat, upDog, setEscolha}){
 
 
     return(
-        shuffledAnimals?.map((animal, i) => {
-            return(
-                <Draggable 
-                className='img' 
-                key={i} 
-                bounds={{top: -100, bottom: 100}}
-                onStop={checkAnimal}
-                >
-                    <img src={animal.image_link}
-                    height='200'
-                    draggable='false' 
-                    key={i} alt={animal.name}
-                    title={animal.name}
-                    className='imagens'
-                    />
-                </Draggable>
-            )
-        })
+        <div className="container">
+            {animais.map((animal, i) => {
+                return(
+                    <Draggable 
+                    key={i} 
+                    bounds={{top: -100, bottom: 100}}
+                    onStop={checkAnimal}
+                    >
+                        <img src={animal.image_link}
+                        height='200'
+                        draggable='false' 
+                        key={i} alt={animal.name}
+                        title={animal.name}
+                        className='imagens'
+                        />
+                    </Draggable>
+                )
+            })}
+            <h2 className={`cachorro  ${escolha === 'dog' ? 'textScale' : ''}`}>Cachorros {dogCount}</h2>
+            <h2 className={`gato ${escolha === 'cat' ? 'textScale' : ''}`}>Gatos {catCount}</h2>
+        </div>
     )
 }
