@@ -40,7 +40,7 @@ export default function Images(){
         const shuffled = []
         shuffled[0] = animals[Math.floor(Math.random() * animals.length)]
         shuffled[1] = animals[Math.floor(Math.random() * animals.length)]
-        shuffled[2] = animals[Math.floor(Math.random() * animals.length)]
+        //shuffled[2] = animals[Math.floor(Math.random() * animals.length)]
 
         if(forma !== 'spread'){
             return shuffled[0]
@@ -63,7 +63,6 @@ export default function Images(){
             setAnimals([...showAnimals, shuffleAnimals()])
             //console.log("Atualizou estado")
             //console.log(showAnimals)
-
         }
       }, [escolheu])
 
@@ -91,7 +90,7 @@ export default function Images(){
                     setTimeout(()=>{ setEscolha('') },400)
                     setDogCount(dogIncrement)
                 }
-                e.target.style.cssText += 'opacity: 0'
+                e.target.style.cssText += 'opacity: 0; z-index: 2;'
                 setTimeout(() => {e.target.remove()}, 600)
                 return
             }
@@ -106,7 +105,7 @@ export default function Images(){
                     setTimeout(()=>{ setEscolha('') },400)
                     setCatCount(catIncrement)
                 }
-                e.target.style.cssText += 'opacity: 0'
+                e.target.style.cssText += 'opacity: 0; z-index: 2;'
                 setTimeout(() => {e.target.remove()}, 600)
                 return 
             }
@@ -126,12 +125,13 @@ export default function Images(){
                     onStop={checkAnimal}
                     >
                         <img src={animal.image_link}
-                        height='200'
                         draggable='false' 
                         key={i} alt={animal.name}
                         title={animal.name}
-                        className='imagens'
+                        desc={i}
+                        className={`imagens ${i == showAnimals.length-2 ? 'first' : ''}`}
                         />
+                        
                     </Draggable>
                 )
             })}

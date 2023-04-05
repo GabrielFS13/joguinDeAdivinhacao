@@ -29,7 +29,6 @@ section{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
 }
 
 .container img{
@@ -43,7 +42,14 @@ section{
     object-fit: contain;
     transition: opacity .6s;
 }
-
+/*
+.container img:first-child{
+    z-index: 1;
+}
+*/
+.first{
+    z-index: 1;
+}
 .container h2{
     position: absolute;
 }
