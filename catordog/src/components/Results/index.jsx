@@ -1,7 +1,8 @@
 import './Results.css';
-import { Link, useLocation } from 'react-router-dom';
-import { Doughnut } from 'react-chartjs-2';
+import { Link, json, useLocation } from 'react-router-dom';
+import { Doughnut, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,22 +10,52 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function Results(){
     const {state} = useLocation()
     const {dogsC, catsC, totCat, totDog, totalAnimals} = state
+    const erros = (totDog - dogsC ) + (totCat - catsC )
+    const results = {
+        erros,
+        totalAnimals,
+        marcados: dogsC + catsC
+    }
+    
+    useEffect(()=>{
+        const odResults = JSON.parse(localStorage.getItem("results")) || []
+        odResults.push(results)
+        localStorage.setItem("results", JSON.stringify(odResults))
+    }, [])
 
-    const data = {
-        labels: ["Cachorros","Gatos","Total de cachorros e gatos"],
+    const dataPie = {
+        labels: ["Acertos", "Erros"],
         datasets:[
             {
                 label: "Total ",
-                data: [dogsC, catsC, totalAnimals],
+                data: [dogsC+catsC,erros],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
+                    'rgba(26, 47, 236, 0.4)',
+                    'rgba(241, 31, 31, 0.4)',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
+                    'rgba(26, 47, 236, 1)',
+                    'rgba(241, 31, 31, 1)',
+                ],
+                borderWidth: 1
+            }
+        ]
+    }
+    const dataDough = {
+        labels: ["Total de gatos e cachorros", "Marcados", "Errados"],
+        datasets:[
+            {
+                label: "Total ",
+                data: [totalAnimals, dogsC + catsC, erros],
+                backgroundColor: [
+                    'rgba(0, 255, 0, 0.4)',
+                    'rgba(0, 0, 255, 0.4)',
+                    'rgba(255, 0, 0, 0.4)',
+                ],
+                borderColor: [
+                    'rgba(0, 255, 0, 0.4)',
+                    'rgba(0, 0, 255, 0.4)',
+                    'rgba(255, 0, 0, 0.4)',
                 ],
                 borderWidth: 1
             }
@@ -50,8 +81,15 @@ export default function Results(){
                    </p>
                 </div>
                 <div className='chart'>
-                    <h2>Desempenho</h2>
-                    <Doughnut data={data} />
+                    <div className="chartTitle">
+                        <h2>Desempenho</h2>
+                    </div>
+                    <div className="pie">
+                        <Pie data={dataPie} />
+                    </div>
+                    <div className="doug">
+                        <Doughnut data={dataDough} />
+                    </div>
                 </div>
                 <div className="buttons">
                     <div className="button">

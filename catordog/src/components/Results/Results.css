@@ -27,13 +27,13 @@
     justify-content: center;
 }
 
-.chart h2{
+.chart .chartTitle{
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .chart canvas{
-    width: 250px;
     border-radius: 10px;
     background-color: #CEE1F2;
 

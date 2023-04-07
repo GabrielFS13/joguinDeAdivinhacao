@@ -16,6 +16,9 @@ export default function Home(){
                 <div className="button">
                     <Link to="/game"><button>Começar</button></Link>
                 </div>
+                <div className="button">
+                    <Link to="/scoreboard"><button>Scoreboard</button></Link>
+                </div>
             </div>
         </div>
     )
