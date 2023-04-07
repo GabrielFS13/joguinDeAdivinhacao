@@ -44,13 +44,14 @@ export default function GamePage(){
           const rnd2 = Math.floor(Math.random() * animals.length)
           shuffled[0] = animals[rnd1]
           shuffled[1] = animals[rnd2]
-          //shuffled[2] = animals[Math.floor(Math.random() * animals.length)]
+
           if(forma !== 'spread'){
               if(rnd1 < 20){
                 setDog(totDog + 1)
               }else{
                 setCat(totCat + 1)
               }
+              
               return shuffled[0]
           }else{
             if(rnd1 < 20){
@@ -77,14 +78,14 @@ export default function GamePage(){
   
         
         useEffect(() =>{
-          if(showAnimals.length > 30){
-            navigate("/results", {state: {dogsC , catsC, totCat, totDog, totalAnimals: totCat + totDog}})
-            
-          }
           if(dogs && cats){
               setAnimals([...showAnimals, shuffleAnimals()])
               //console.log("Atualizou estado")
               //console.log(showAnimals)
+          }
+          if(showAnimals.length > 10){
+            navigate("/results", {state: {dogsC: dogsC + 1, catsC: catsC + 1, totCat, totDog, totalAnimals: totCat + totDog}})
+            
           }
         }, [escolheu])
   
