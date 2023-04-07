@@ -83,7 +83,7 @@ export default function GamePage(){
               //console.log("Atualizou estado")
               //console.log(showAnimals)
           }
-          if(showAnimals.length > 10){
+          if(showAnimals.length > 30){
             navigate("/results", {state: {dogsC: dogsC + 1, catsC: catsC + 1, totCat, totDog, totalAnimals: totCat + totDog}})
             
           }
