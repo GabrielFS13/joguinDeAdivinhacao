@@ -1,0 +1,53 @@
+.containerResult {
+    width: 600px;
+    background-color: #2E34A6;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.2);
+}
+
+.containerResult div{
+    margin: 10px;
+}
+
+.containerResult .title{
+    width: 100%;
+    text-align: center;
+}
+
+.containerResult .results p{
+    width: 100%;
+    margin: 10px 5px;
+}
+.chart{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart h2{
+    width: 100%;
+    text-align: center;
+}
+
+.chart canvas{
+    width: 250px;
+    border-radius: 10px;
+    background-color: #CEE1F2;
+
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 600px){
+    .containerResult{
+        width: 100vw;
+    }
+}

@@ -6,7 +6,7 @@
 }
 
 body{
-    overflow: hidden;
+    overflow-x: hidden;
     display: grid;
     place-items: center;
     height: 100vh;

@@ -6,10 +6,12 @@ const API_KEY = process.env.REACT_APP_URL_API
 
 
 export default function GamePage(){
-    const [dogs, setDogs] = useState()
-    const [cats, setCats] = useState()
-    const [dogsC, setDogsC] = useState(0)
-    const [catsC, setCatsC] = useState(0)
+    const [dogs, setDogs] = useState()//recebe os cachorros da API
+    const [cats, setCats] = useState()//recebe os gatos da API
+    const [dogsC, setDogsC] = useState(0)//contador de acertos do player para cachorro
+    const [catsC, setCatsC] = useState(0)//contador de acertos do player para gatos
+    const [totDog, setDog] = useState(0)//conta quantos cachorros entraram no array de jogo
+    const [totCat, setCat] = useState(0)//conta quantos gatos entraram no array de jogo
 
     const [showAnimals, setAnimals] = useState([])
     const [escolheu, setEscolhido] = useState(0)
@@ -38,14 +40,30 @@ export default function GamePage(){
         const shuffleAnimals = (forma) => {
           const animals = dogs.concat(cats)
           const shuffled = []
-          shuffled[0] = animals[Math.floor(Math.random() * animals.length)]
-          shuffled[1] = animals[Math.floor(Math.random() * animals.length)]
+          const rnd1 = Math.floor(Math.random() * animals.length)
+          const rnd2 = Math.floor(Math.random() * animals.length)
+          shuffled[0] = animals[rnd1]
+          shuffled[1] = animals[rnd2]
           //shuffled[2] = animals[Math.floor(Math.random() * animals.length)]
-  
           if(forma !== 'spread'){
+              if(rnd1 < 20){
+                setDog(totDog + 1)
+              }else{
+                setCat(totCat + 1)
+              }
               return shuffled[0]
           }else{
-              return shuffled
+            if(rnd1 < 20){
+              setDog(totDog + 1)
+            }else{
+              setCat(totCat + 1)
+            }
+            if(rnd2 < 20){
+              setDog(totDog + 1)
+            }else{
+              setCat(totCat + 1)
+            }
+            return shuffled
           }
       }
           
@@ -60,7 +78,7 @@ export default function GamePage(){
         
         useEffect(() =>{
           if(showAnimals.length > 30){
-            navigate("/results", {state: {dogsC, catsC}})
+            navigate("/results", {state: {dogsC , catsC, totCat, totDog, totalAnimals: totCat + totDog}})
             
           }
           if(dogs && cats){
