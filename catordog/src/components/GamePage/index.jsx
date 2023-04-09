@@ -10,11 +10,11 @@ export default function GamePage(){
     const [cats, setCats] = useState()//recebe os gatos da API
     const [dogsC, setDogsC] = useState(0)//contador de acertos do player para cachorro
     const [catsC, setCatsC] = useState(0)//contador de acertos do player para gatos
-    const [totDog, setDog] = useState(0)//conta quantos cachorros entraram no array de jogo
-    const [totCat, setCat] = useState(0)//conta quantos gatos entraram no array de jogo
+    const [totDog, setTotDog] = useState(0)//conta o total de cachorros em jogo
+    const [totCat, setTotCat] = useState(0)//conta o total de gatos em jogo
 
-    const [showAnimals, setAnimals] = useState([])
-    const [escolheu, setEscolhido] = useState(0)
+    const [showAnimals, setAnimals] = useState([])//array que guarda os gatos e cachorros embaralhados
+    const [escolheu, setEscolhido] = useState(0)//controle para ver quando escolhe
     const navigate = useNavigate()
 
         if(!cats && !dogs){
@@ -45,25 +45,9 @@ export default function GamePage(){
           shuffled[0] = animals[rnd1]
           shuffled[1] = animals[rnd2]
 
-          if(forma !== 'spread'){
-              if(rnd1 < 20){
-                setDog(totDog + 1)
-              }else{
-                setCat(totCat + 1)
-              }
-              
+          if(forma !== 'spread'){        
               return shuffled[0]
           }else{
-            if(rnd1 < 20){
-              setDog(totDog + 1)
-            }else{
-              setCat(totCat + 1)
-            }
-            if(rnd2 < 20){
-              setDog(totDog + 1)
-            }else{
-              setCat(totCat + 1)
-            }
             return shuffled
           }
       }
@@ -78,27 +62,32 @@ export default function GamePage(){
   
         
         useEffect(() =>{
+          if(showAnimals.length > 30){
+            
+            navigate("/results", {state: {dogsC: dogsC + 1, catsC: catsC + 1, totCat: totCat, totDog: totDog, totalAnimals: totCat + totDog}})
+          }
+
           if(dogs && cats){
               setAnimals([...showAnimals, shuffleAnimals()])
               //console.log("Atualizou estado")
               //console.log(showAnimals)
-          }
-          if(showAnimals.length > 30){
-            navigate("/results", {state: {dogsC: dogsC + 1, catsC: catsC + 1, totCat, totDog, totalAnimals: totCat + totDog}})
-            
           }
         }, [escolheu])
   
     return(
         <main>
           <section>
-            <Images
+           <Images
             showAnimals={showAnimals} 
             setEscolhido={(e) => setEscolhido(e)} 
             escolheu={escolheu}
+            totDog = {totDog}
+            totCat = {totCat}
+            setTotDog = {(e) => setTotDog(e)}
+            setTotCat = {(e) => setTotCat(e)}
             dogs={(e)=>setDogsC(e)}
             cats={(e)=>setCatsC(e)}
-            /> 
+            />
           </section>
         </main>
     )

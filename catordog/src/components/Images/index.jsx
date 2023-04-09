@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { TbCat, TbDog } from 'react-icons/tb'
 
 
-export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats}){
+export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats, setTotCat, setTotDog, totDog, totCat}){
   
     const [dogCount, setDogCount] = useState(0)
     const [catCount, setCatCount] = useState(0)
     const [escolha, setEscolha] = useState('')
     
     function checkAnimal(e){
+
         try{
             var pos = e.target.style.cssText
             pos = pos.split('(')
@@ -33,6 +34,7 @@ export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats}
                     setDogCount(dogCount + 1)
                     dogs(dogCount)
                 }
+                setTotAnimal(name)
                 e.target.style.cssText += 'opacity: 0; z-index: 2;'
                 setTimeout(() => {e.target.remove()}, 600)
                 return
@@ -48,6 +50,7 @@ export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats}
                     setCatCount(catCount + 1)
                     cats(catCount)
                 }
+                setTotAnimal(name)
                 e.target.style.cssText += 'opacity: 0; z-index: 2;'
                 setTimeout(() => {e.target.remove()}, 600)
                 return 
@@ -58,6 +61,21 @@ export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats}
         e.target.style.cssText = 'transform: translate(0px, 0px);'
     }
 
+    function setTotAnimal(name){
+        if(name === 'dogs'){
+            //totCog
+            setTotDog(totDog + 1)
+        }
+
+        if(name === 'cats'){
+            //totCat
+            setTotCat(totCat + 1)
+        }
+
+        //console.log("Cachorro: "+totDog)
+        //console.log("Gato: "+totCat)
+    }
+
     return(
         <div className="container">
             <div className="gameScoreboard">
@@ -65,6 +83,9 @@ export default function Images({showAnimals, setEscolhido, escolheu, dogs, cats}
                 <h2 className={`gato ${escolha === 'cat' ? 'textScale' : ''}`}><TbCat size={30} color='white'/>  {catCount}</h2>
             </div>
             <div className="gameImages">
+            <div className="loading">
+                <img src="loading.gif" alt="Carregando imagens..."/>
+            </div>
                 {showAnimals.map((animal, i) => {
                     return(
                         <Draggable 

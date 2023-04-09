@@ -1,8 +1,8 @@
 import './Results.css';
-import { Link, json, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Doughnut, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -10,17 +10,16 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function Results(){
     const {state} = useLocation()
     const {dogsC, catsC, totCat, totDog, totalAnimals} = state
-    const erros = (totDog - dogsC ) + (totCat - catsC )
+    const erros = totalAnimals - (catsC + dogsC)
     const results = {
         erros,
         totalAnimals,
         marcados: dogsC + catsC
-    }
-    
+    }    
     useEffect(()=>{
-        const odResults = JSON.parse(localStorage.getItem("results")) || []
-        odResults.push(results)
-        localStorage.setItem("results", JSON.stringify(odResults))
+        const ogResults = JSON.parse(localStorage.getItem("results")) || []
+        ogResults.push(results)
+        localStorage.setItem("results", JSON.stringify(ogResults))
     }, [])
 
     const dataPie = {
@@ -42,11 +41,11 @@ export default function Results(){
         ]
     }
     const dataDough = {
-        labels: ["Total de gatos e cachorros", "Marcados", "Errados"],
+        labels: ["Gatos", "Cachorros", "Errados"],
         datasets:[
             {
                 label: "Total ",
-                data: [totalAnimals, dogsC + catsC, erros],
+                data: [catsC, dogsC, erros],
                 backgroundColor: [
                     'rgba(0, 255, 0, 0.4)',
                     'rgba(0, 0, 255, 0.4)',
@@ -66,7 +65,8 @@ export default function Results(){
         <div className='containerResult'>
             <div className="score">
                 <div className="title">
-                    <h2>Parábens, você concluiu o teste! Eis o resultado: </h2>
+                    <h2>Parábens, você concluiu o teste! </h2>
+                    <h2>Eis o resultado:</h2>
                 </div>
                 <div className="results">
                    <p>
